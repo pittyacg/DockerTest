@@ -36,6 +36,11 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.3.27-Linux-x86
 
 ENV PATH /opt/conda/bin:$PATH
 
-#RUN pip install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6
+RUN conda install pytorch==0.4 torchvision==0.2
+RUN pip install cython cffi opencv-python scipy==1.1.0 msgpack easydict matplotlib pyyaml tensorboardX pillow==6
+RUN conda install gxx_linux-64
+RUN apt-get update
+RUN apt-get install -y libsm6 libxext6 libxrender-dev
+
 
 WORKDIR /code/
