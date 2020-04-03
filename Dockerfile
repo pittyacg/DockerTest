@@ -28,4 +28,6 @@ RUN apt-get update -qq \
 #    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 #    echo "conda activate base" >> ~/.bashrc
 
-#RUN pip install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6.0
+#RUN pip install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6
+
+WORKDIR /code/
