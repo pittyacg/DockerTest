@@ -1,7 +1,7 @@
 # TensorFlow 1.14, Python3.7, cuda and cuDNN (GPU) 
 # and some extra packages (opencv, scipy, sklearn, etc)
 
-FROM nvidia/cuda:8.0-cudnn7-runtime-ubuntu16.04
+FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
 FROM continuumio/miniconda3
 
 
@@ -25,14 +25,21 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
  
-# install packages
-RUN conda create -n torch python=3.6
-#RUN conda activate torch
+# install python 3.7.5
+RUN wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tgz 
+RUN tar -xvf Python-3.6.0.tgz 
+RUN cd Python-3.6.0 \
+	&& ./configure \
+	&& make \
+	&& make install
 
-RUN echo "source activate torch" > ~/.bashrc
-ENV PATH /opt/conda/envs/env/bin:$PATH
+# install pip3
+RUN curl https://bootstrap.pypa.io/get-pip.py | python3
 
-RUN conda install pytorch=0.4.0 torchvision=0.2
-RUN pip install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6.0
+# install numpy
+RUN python3.6 -m pip install numpy
 
-WORKDIR /code/
+RUN pip3 install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6.0
+
+# create a link to use python3 as as 'python'
+RUN ln -s /usr/local/bin/python3 /usr/bin/python
