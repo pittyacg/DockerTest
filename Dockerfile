@@ -40,6 +40,3 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python3
 RUN python3.6 -m pip install numpy
 
 RUN pip3 install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6.0
-
-# create a link to use python3 as as 'python'
-RUN ln -s /usr/local/bin/python3 /usr/bin/python
