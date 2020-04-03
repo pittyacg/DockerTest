@@ -1,5 +1,4 @@
 FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
-FROM continuumio/miniconda3:4.8.2
 
 USER root
 SHELL ["/bin/bash", "-c"]
@@ -20,5 +19,13 @@ RUN apt-get update -qq \
 	libffi-dev \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
 
 RUN pip install cython cffi opencv-python scipy msgpack easydict matplotlib pyyaml tensorboardX pillow==6.0
